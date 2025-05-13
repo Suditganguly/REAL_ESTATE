@@ -19,9 +19,9 @@ const Hero = () => {
             }}
 
             >
-              Buy land <br /> {/* title of hero panel*/}
-              they're not making 
-              <br /> it anymore
+              Discover <br /> {/* title of hero panel*/}
+              Your Dream Property
+              <br /> Today
             </motion.h1>
           </div>
           <div className="flexColStart  secondaryTexthero flexhero-des">
@@ -69,7 +69,7 @@ const Hero = () => {
               type: "ease-in",
             }}
           
-            className="image-container flexlefthero"
+            className="image-container-hero flexlefthero"
           >     
 
           <SearchBar/>
@@ -78,21 +78,21 @@ const Hero = () => {
               <span>
                 <CountUp start={8800} end={9000} duration={4} /> <span>+</span>
               </span>
-              <span className="secondaryText">Premium Product</span>
+              <span className="secondaryTexthero">Premium Product</span>
             </div>
 
             <div className="flexColCenter stat">
               <span>
                 <CountUp start={1950} end={2000} duration={4} /> <span>+</span>
               </span>
-              <span className="secondaryText">Happy Customer</span>
+              <span className="secondaryTexthero">Happy Customer</span>
             </div>
 
             <div className="flexColCenter stat">
               <span>
                 <CountUp end={28} /> <span>+</span>
               </span>
-              <span className="secondaryText">Awards Winning</span>
+              <span className="secondaryTexthero">Awards Winning</span>
             </div> 
           </div>
             {/* <img src="./hero-image.png" alt="houses" /> */}
