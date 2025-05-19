@@ -1,10 +1,13 @@
-const express = require('express')
-const { userRegister, userLogin } = require('../controller/userController')
-const router= express.Router()
-// register
-router.post("/register", userRegister);
+const express = require('express');
+const { userRegister, userLogin, getUserProfile } = require('../controller/userController');
+const router = express.Router();
+const verifyUserToken = require('../middlewares/UserAuthMiddleware');
 
-// login
+// Public routes
+router.post("/register", userRegister);
 router.post("/login", userLogin);
 
-module.exports= router
+// Protected route
+router.get("/profile", verifyUserToken, getUserProfile);
+
+module.exports = router;
