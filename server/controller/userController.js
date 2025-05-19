@@ -1,27 +1,87 @@
-const express = require ('express');
-const Userdatabase= require ('../models/userModel')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const UserModel = require('../models/userModel');
 
-const userRegister =async (req,res)=>{
-    const {Username, Password}= req.body;
-    const userRegister = new Userdatabase({ Username, Password});
-    await userRegister.save();
-    res.send({
-        status: 1, 
-        msg : "Data saved successfully",
-        userRegister
-    })
-}
+const userRegister = async (req, res) => {
+  try {
+    const { fullName, email, password, phone, address } = req.body;
 
-const userLogin= async (req,res)=>{
-    const {Username, Password}= req.body;
-    
-    const userLogin= await Userdatabase.findOne({Username, Password});
-    
-    res.send({
-        status: 1, 
-        msg : "Data fetched successfully",
-        userLogin
-    })
-}
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ status: 0, msg: 'User already exists' });
+    }
 
-module.exports={userRegister, userLogin}
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new UserModel({
+      fullName,
+      email,
+      password: hashedPassword,
+      phone,
+      address,
+    });
+
+    await newUser.save();
+
+    res.status(201).json({
+      status: 1,
+      msg: 'User registered successfully',
+      user: {
+        id: newUser._id,
+        fullName: newUser.fullName,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ status: 0, msg: 'Server error', error: error.message });
+  }
+};
+
+const userLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ status: 0, msg: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ status: 0, msg: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+
+    res.json({
+      status: 1,
+      msg: 'Login successful',
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({ status: 0, msg: 'Server error', error: error.message });
+  }
+};
+
+const getUserProfile = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user._id).select('-password');
+    if (!user) {
+      return res.status(404).json({ status: 0, msg: 'User not found' });
+    }
+    res.json({ status: 1, msg: 'User profile fetched successfully', user });
+  } catch (error) {
+    res.status(500).json({ status: 0, msg: 'Server error', error: error.message });
+  }
+};
+
+module.exports = { userRegister, userLogin, getUserProfile };

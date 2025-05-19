@@ -13,6 +13,7 @@ import Property from "../pages/Property/Property";
 import UserDetailContext from "../context/UserDetailContext";
 import Bookings from "../pages/Bookings/Bookings";
 import Favourites from "../pages/Favourites/Favourites";
+import Register from "../components/Header/Header";
 
 function App() {
   const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ function App() {
                 </Route>
                 <Route path="/bookings" element={<Bookings />} />
                 <Route path="/favourites" element={<Favourites />} />
+                <Route path="/register" element={<Register />} />
               </Route>
             </Routes>
           </Suspense>
