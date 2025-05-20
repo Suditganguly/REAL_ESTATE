@@ -4,10 +4,10 @@ const router = express.Router();
 const verifyUserToken = require('../middlewares/UserAuthMiddleware');
 
 // Public routes
-router.post("/user/register", userRegister);
-router.post("/user/login", userLogin);
+router.post("/register", userRegister);
+router.post("/login", userLogin);
 
 // Protected route
-router.get("/user/profile", verifyUserToken, getUserProfile);
+router.get("/profile", verifyUserToken, getUserProfile);
 
 module.exports = router;
