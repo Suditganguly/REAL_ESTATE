@@ -1,0 +1,144 @@
+body{
+  background-color: #121212;
+}
+/* Dark theme outer wrapper */
+.loginsignup {
+  width: 100%;
+  min-height: 70vh;
+  background: #121212;
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 30px;
+}
+
+/* Smaller but clean container */
+.loginsignup-container {
+  width: 100%;
+  max-width: 480px; /* was 580px */
+  background: #1e1e1e;
+  padding: 30px 40px; /* slightly reduced */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* Title */
+.loginsignup-container h1 {
+  margin: 15px 0;
+  font-size: 1.4rem; /* slightly smaller */
+  font-weight: 700;
+  color: #eee;
+  text-align: center;
+}
+
+/* Form fields */
+.loginsignup-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 25px;
+}
+
+/* Input styling */
+.loginsignup-fields input {
+  height: 56px; /* was 72px */
+  width: 100%;
+  padding-left: 16px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #2a2a2a;
+  color: #ddd;
+  font-size: 15px; /* was 18px */
+  outline: none;
+}
+
+.loginsignup-fields input::placeholder {
+  color: #999;
+}
+
+.loginsignup-fields input:focus {
+  border-color: #ff4141;
+  background-color: #3a3a3a;
+}
+
+/* Button */
+.loginsignup-container button {
+  width: 100%;
+  height: 56px; /* was 72px */
+  color: white;
+  background: #ff4141;
+  margin-top: 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 20px; /* was 24px */
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.loginsignup-container button:hover {
+  background: #e03a3a;
+}
+
+/* Login text */
+.loginsignup-login {
+  margin-top: 15px;
+  color: #bbb;
+  font-size: 15px; /* was 18px */
+  font-weight: 500;
+  text-align: center;
+}
+
+.loginsignup-login span {
+  color: #ff4141;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Checkbox and terms */
+.loginsignup-agree {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  gap: 15px;
+  color: #bbb;
+  font-size: 14px; /* was 18px */
+  font-weight: 500;
+}
+
+.loginsignup-agree input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #ff4141;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .loginsignup-container {
+    padding: 20px 16px;
+    max-width: 90%;
+  }
+
+  .loginsignup-container h1 {
+    font-size: 1.2rem;
+  }
+
+  .loginsignup-fields input {
+    height: 48px;
+    font-size: 14px;
+  }
+
+  .loginsignup-container button {
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .loginsignup-login,
+  .loginsignup-agree {
+    font-size: 13px;
+  }
+}
