@@ -1,7 +1,9 @@
-const express = require('express');
 const dotenv = require('dotenv').config();
+const express = require('express');
 const path = require('path');
 const dbConnect = require('./config/db');
+const cors = require('cors');
+const corsOptions = require('./middlewares/cors');
 const userRoute = require('./routes/userRoutes');
 const adminRoute = require('./routes/adminRoutes');
 const propertyRoute = require('./routes/propertyRoutes');
@@ -15,6 +17,7 @@ dbConnect();
 
 // Middleware
 app.use(express.json());
+app.use(cors(corsOptions));
 
 // Serve static uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
