@@ -1,43 +1,43 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import UserDetailContext from "../../context/UserDetailContext";
+import { useUser } from "../../context/UserDetailContext";
 import { useMutation } from "react-query";
 import { createUser } from "../../utils/api";
 import useFavourites from "../../hooks/useFavourites";
 import useBookings from "../../hooks/useBookings";
 
 const Layout = () => {
+  useFavourites();
+  useBookings();
 
-  useFavourites()
-  useBookings()
-
-  const { isAuthenticated, user, getAccessTokenWithPopup } = useAuth0();
-  const { setUserDetails } = useContext(UserDetailContext);
+  const { isAuthenticated, user: auth0User, getAccessTokenWithPopup } = useAuth0(); // ✅ renamed
+  const { user, setUser } = useUser(); // ✅ from context
 
   const { mutate } = useMutation({
-    mutationKey: [user?.email],
-    mutationFn: (token) => createUser(user?.email, token),
+    mutationKey: [auth0User?.email],
+    mutationFn: (token) => createUser(auth0User?.email, token),
   });
 
   useEffect(() => {
-    const getTokenAndRegsiter = async () => {
-
+    const getTokenAndRegister = async () => {
       const res = await getAccessTokenWithPopup({
         authorizationParams: {
-          audience: "http://localhost:8000",
+          audience: `${import.meta.env.VITE_SERVER_ROUTE}`,
           scope: "openid profile email",
         },
       });
+
       localStorage.setItem("access_token", res);
-      setUserDetails((prev) => ({ ...prev, token: res }));
-      mutate(res)
+      setUser((prev) => ({ ...prev, token: res })); // ✅ fixed setUser
+      mutate(res);
     };
 
-
-    isAuthenticated && getTokenAndRegsiter();
+    if (isAuthenticated) {
+      getTokenAndRegister();
+    }
   }, [isAuthenticated]);
 
   return (

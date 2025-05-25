@@ -1,20 +1,22 @@
-import React, { useContext, useEffect, useRef } from "react";
-import UserDetailContext from "../context/UserDetailContext";
+import { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getAllBookings, getAllFav } from "../utils/api";
+import { getAllBookings } from "../utils/api";
+import { useUser } from "../context/UserDetailContext"; // ✅ import only useUser
 
 const useBookings = () => {
-  const { userDetails, setUserDetails } = useContext(UserDetailContext);
+  const { user, setUser } = useUser(); // ✅ get global state from custom hook
   const queryRef = useRef();
-  const { user } = useAuth0();
+  const { user: auth0User } = useAuth0();
+
+  const token = user?.token;
 
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: "allBookings",
-    queryFn: () => getAllBookings(user?.email, userDetails?.token),
-    onSuccess: (data) =>
-      setUserDetails((prev) => ({ ...prev, bookings: data })),
-    enabled: user !== undefined,
+    queryKey: ["allBookings", auth0User?.email],
+    queryFn: () => getAllBookings(auth0User?.email, token),
+    onSuccess: (bookings) =>
+      setUser((prev) => ({ ...prev, bookings })), // ✅ update global user object
+    enabled: !!auth0User && !!token,
     staleTime: 30000,
   });
 
@@ -22,7 +24,7 @@ const useBookings = () => {
 
   useEffect(() => {
     queryRef.current && queryRef.current();
-  }, [userDetails?.token]);
+  }, [token]);
 
   return { data, isError, isLoading, refetch };
 };
