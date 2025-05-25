@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import "./App.css";
 import Layout from "../components/Layout/Layout";
 
@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Property from "../pages/Property/Property";
-import UserDetailContext from "../context/UserDetailContext";
+import { UserProvider } from "../context/UserDetailContext.jsx";
 import Bookings from "../pages/Bookings/Bookings";
 import Favourites from "../pages/Favourites/Favourites";
 import Login from "../pages/Auth/Login";
@@ -19,14 +19,8 @@ import Register from "../pages/Auth/Register";
 function App() {
   const queryClient = new QueryClient();
 
-  const [userDetails, setUserDetails] = useState({
-    favourites: [],
-    bookings: [],
-    token: null,
-  });
-
   return (
-    <UserDetailContext.Provider value={{ userDetails, setUserDetails }}>
+    <UserProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Suspense fallback={<div>Loading...</div>}>
@@ -48,7 +42,7 @@ function App() {
         <ToastContainer />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-    </UserDetailContext.Provider>
+    </UserProvider>
   );
 }
 
