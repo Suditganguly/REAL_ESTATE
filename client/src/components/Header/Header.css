@@ -95,3 +95,14 @@
 .dropdown-item:hover {
   background-color: #f0f0f0;
 }
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;      /* Makes the image circular */
+  object-fit: cover;       /* Ensures the image covers the area */
+  border: 2px solid #eee;  /* Optional: subtle border */
+  background: #fff;        /* Optional: fallback background */
+  display: block;
+}
+
