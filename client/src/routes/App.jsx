@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Property from "../pages/Property/Property";
-import { UserProvider } from "../context/UserDetailContext.jsx";
+import { UserProvider } from "../context/UserDetailContext";
 import Bookings from "../pages/Bookings/Bookings";
 import Favourites from "../pages/Favourites/Favourites";
 import Login from "../pages/Auth/Login";
@@ -41,7 +41,7 @@ function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
-        <ToastContainer />
+       <ToastContainer />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </UserProvider>
