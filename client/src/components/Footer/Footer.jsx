@@ -37,7 +37,7 @@ const Footer = () => {
       <div className="paddings innerWidth flexCenter f-container">
         {/* left side */}
         <div className="flexColStart f-left">
-          <img src="./logo_black.png" alt="" width={150} height={140}  />
+<img className="footer-logo" src="./logo_black.png" alt="Logo" />
           <span className="secondaryText">
             Perfect place<br />Simply found with urbaNest {String.fromCodePoint(0x2764,0xFE0F)}
 
