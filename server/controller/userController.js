@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
+const cloudinary = require('../config/cloudinary');
+const streamifier = require('streamifier');
 
 const userRegister = async (req, res) => {
   try {
@@ -84,4 +86,70 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { userRegister, userLogin, getUserProfile };
+
+const uploadProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ status: 0, message: 'Image not provided' });
+    }
+
+    const streamUpload = (req) => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'user-profiles',
+            public_id: `${req.user._id}-profile`, // optional: consistent public_id
+            overwrite: true,
+            transformation: [{ width: 300, height: 300, crop: 'limit' }],
+          },
+          (error, result) => {
+            if (result) resolve(result);
+            else reject(error);
+          }
+        );
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+    };
+
+    const result = await streamUpload(req);
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.user._id,
+      { profilePic: result.secure_url },
+      { new: true }
+    );
+
+    res.json({
+      status: 1,
+      message: 'Image uploaded successfully',
+      profilePic: updatedUser.profilePic,
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ status: 0, message: 'Server error', error: error.message });
+  }
+};
+
+// delete profile image
+const deleteProfileImage = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user._id);
+    if (!user || !user.profilePic) {
+      return res.status(404).json({ status: 0, message: 'User or profile image not found' });
+    }
+
+    const publicId = user.profilePic.split('/').pop().split('.')[0]; // Extract public_id from URL
+
+    await cloudinary.uploader.destroy(`user-profiles/${publicId}`);
+
+    user.profilePic = null;
+    await user.save();
+
+    res.json({ status: 1, message: 'Profile image deleted successfully' });
+  } catch (error) {
+    console.error('Delete error:', error);
+    res.status(500).json({ status: 0, message: 'Server error', error: error.message });
+  }
+};
+
+module.exports = { userRegister, userLogin, getUserProfile , uploadProfileImage, deleteProfileImage };
