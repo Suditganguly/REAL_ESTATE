@@ -37,7 +37,7 @@ const Header = () => {
           }
         );
         // Update the entire userDetails object (preserving bookings if needed)
-        setUserDetails(prev => ({
+        setUserDetails((prev) => ({
           ...prev,
           user: res.data.user,
         }));
@@ -106,13 +106,24 @@ const Header = () => {
             {user ? (
               <div className="profile-container" ref={dropdownRef}>
                 <div className="profile-avatar" onClick={handleProfileClick}>
-                  <div className="avatar-initials" title={user.fullName}>
-                    {getInitials(user.fullName)}
-                  </div>
+                  {user.profilePic && user.profilePic !== "default-profile.png" ? (
+                    <img
+                      src={user.profilePic}
+                      alt="User"
+                      className="user-avatar"
+                    />
+                  ) : (
+                    <div className="avatar-initials" title={user.fullName}>
+                      {getInitials(user.fullName)}
+                    </div>
+                  )}
                 </div>
                 {dropdownOpen && (
                   <div className="profile-dropdown">
-                    <div className="dropdown-item" onClick={handleSettingsClick}>
+                    <div
+                      className="dropdown-item"
+                      onClick={handleSettingsClick}
+                    >
                       Settings
                     </div>
                     <div className="dropdown-item" onClick={handleLogoutClick}>

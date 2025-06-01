@@ -15,6 +15,7 @@ import Bookings from "../pages/Bookings/Bookings";
 import Favourites from "../pages/Favourites/Favourites";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import UserSettings from "../components/UserSettings";
 
 function App() {
   const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/favourites" element={<Favourites />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/settings" element={<UserSettings />} />
               </Route>
             </Routes>
           </Suspense>
