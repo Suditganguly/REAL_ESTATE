@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
+import Header from '../../components/Header/Header';
 import { Modal, Button, Group } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useMutation } from "react-query";
 import { UserDetailContext } from "../../context/UserDetailContext.jsx";
-import { bookVisit } from "../../utils/api.js";
+// import { bookVisit } from "../../utils/api.js";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -88,4 +89,30 @@ const BookingModal = ({ opened, setOpened, propertyId, email }) => {
   );
 };
 
-export default BookingModal;
+const PropertyDuplicate = () => {
+  const [modalOpened, setModalOpened] = useState(false);
+  
+  // Example property ID and email - you would typically get these from props or context
+  const propertyId = "example-property-id";
+  const email = "user@example.com";
+
+  return (
+    <>
+      <Header />
+      <div style={{ padding: "2rem" }}>
+        <Button onClick={() => setModalOpened(true)}>
+          Open Booking Modal
+        </Button>
+        
+        <BookingModal
+          opened={modalOpened}
+          setOpened={setModalOpened}
+          propertyId={propertyId}
+          email={email}
+        />
+      </div>
+    </>
+  );
+};
+
+export default PropertyDuplicate; 
