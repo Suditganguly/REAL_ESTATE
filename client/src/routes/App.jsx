@@ -16,6 +16,9 @@ import Favourites from "../pages/Favourites/Favourites";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import UserSettings from "../components/UserSettings";
+import PropertyDuplicate from "../pages/Duplicate/PropertyDuplicate";
+
+
 
 function App() {
   const queryClient = new QueryClient();
@@ -26,6 +29,7 @@ function App() {
         <BrowserRouter>
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
+              <Route path="/Property-Duplicate" element={<PropertyDuplicate />} />
               <Route element={<Layout />}>
                 <Route path="/" element={<Website />} />
                 <Route path="/properties">
