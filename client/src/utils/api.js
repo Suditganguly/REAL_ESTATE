@@ -6,47 +6,65 @@ export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 });
 
-// Get all properties
-export const getAllProperties = async () => {
-  try {
-    const response = await api.get("/residency/allresd", { timeout: 10 * 1000 });
-    if (response.status === 400 || response.status === 500) throw response.data;
-    return response.data;
-  } catch (error) {
-    toast.error("Something went wrong");
-    throw error;
-  }
-};
+// PROPERTY ENDPOINTS
 
-// Get single property
-export const getProperty = async (id) => {
+// Add a new property (protected)
+export const addProperty = async (propertyData, token) => {
   try {
-    const response = await api.get(`/residency/${id}`, { timeout: 10 * 1000 });
-    if (response.status === 400 || response.status === 500) throw response.data;
-    return response.data;
-  } catch (error) {
-    toast.error("Something went wrong");
-    throw error;
-  }
-};
-
-// Register user
-/*export const createUser = async (email, token) => {
-  try {
-    await api.post(
-      `/user/register`,
-      { email },
+    const response = await api.post(
+      "/real-estate/properties",
+      propertyData,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    return response.data;
   } catch (error) {
-    toast.error("Something went wrong, Please try again");
+    toast.error("Failed to add property");
     throw error;
   }
-};*/
+};
 
-// Book a visit (CORRECTED)
+// Get all properties (public)
+export const getAllProperties = async () => {
+  try {
+    const response = await api.get("/real-estate/properties");
+    return response.data;
+  } catch (error) {
+    toast.error("Failed to fetch properties");
+    throw error;
+  }
+};
+
+// Get property by ID (public)
+export const getPropertyById = async (id) => {
+  try {
+    const response = await api.get(`/real-estate/properties/${id}`);
+    return response.data;
+  } catch (error) {
+    toast.error("Failed to fetch property");
+    throw error;
+  }
+};
+
+// Delete property (protected)
+export const deleteProperty = async (id, token) => {
+  try {
+    const response = await api.delete(
+      `/real-estate/properties/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    toast.error("Failed to delete property");
+    throw error;
+  }
+};
+
+// BOOKING ENDPOINTS
+
 export const bookVisit = async (date, propertyId, email, token) => {
   try {
     await api.post(
@@ -66,7 +84,6 @@ export const bookVisit = async (date, propertyId, email, token) => {
   }
 };
 
-// Remove a booking
 export const removeBooking = async (id, email, token) => {
   try {
     await api.post(
@@ -82,7 +99,8 @@ export const removeBooking = async (id, email, token) => {
   }
 };
 
-// Add to favorites
+// FAVORITES ENDPOINTS
+
 export const toFav = async (id, email, token) => {
   try {
     await api.post(
@@ -97,7 +115,6 @@ export const toFav = async (id, email, token) => {
   }
 };
 
-// Get all favorites
 export const getAllFav = async (email, token) => {
   if (!token) return;
   try {
@@ -115,7 +132,8 @@ export const getAllFav = async (email, token) => {
   }
 };
 
-// Get all bookings
+// BOOKINGS ENDPOINTS
+
 export const getAllBookings = async (email, token) => {
   if (!token) return;
   try {
@@ -133,7 +151,7 @@ export const getAllBookings = async (email, token) => {
   }
 };
 
-// Create a new residency
+// (Legacy) Create a new residency (if needed for old code)
 export const createResidency = async (data, token) => {
   try {
     await api.post(
