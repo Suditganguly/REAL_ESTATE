@@ -1,6 +1,5 @@
 // import { createContext, useContext, useState, useEffect } from "react";
 
-<<<<<<< HEAD
 // export const UserDetailContext = createContext();
 
 // export const UserProvider = ({ children }) => {
@@ -58,9 +57,6 @@ const initialUserState = {
   token: null,
   bookings: [],
 };
-=======
-export const UserDetailContext = createContext();
->>>>>>> ea6a69f00052fbdfd658ebaa3045195082875c5a
 
 export const UserProvider = ({ children }) => {
   // Initialize state with localStorage data
@@ -168,45 +164,8 @@ export const getUserDetails = () => {
       user: storedUser ? JSON.parse(storedUser) : null,
       token: token || null,
     };
-<<<<<<< HEAD
   } catch (error) {
     console.error("Error getting user details:", error);
     return initialUserState;
   }
 };
-=======
-  });
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const storedUser = localStorage.getItem("user");
-      const token = localStorage.getItem("token");
-      setUserDetails({
-        user: storedUser ? JSON.parse(storedUser) : null,
-        token: token || null,
-        bookings: [],
-      });
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
-  useEffect(() => {
-    if (userDetails.user && userDetails.token) {
-      localStorage.setItem("user", JSON.stringify(userDetails.user));
-      localStorage.setItem("token", userDetails.token);
-    } else {
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-    }
-  }, [userDetails]);
-
-  return (
-    <UserDetailContext.Provider value={{ userDetails, setUserDetails }}>
-      {children}
-    </UserDetailContext.Provider>
-  );
-};
-
-export const useUser = () => useContext(UserDetailContext);
->>>>>>> ea6a69f00052fbdfd658ebaa3045195082875c5a
