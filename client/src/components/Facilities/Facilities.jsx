@@ -6,7 +6,6 @@ import { useForm } from "@mantine/form";
 import { useMutation } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
-import { createResidency } from "../../utils/api";
 // COMMENT THIS TEMPORARILY IF IT CRASHES
 import { UserDetailContext } from "../../context/UserDetailContext";
 
