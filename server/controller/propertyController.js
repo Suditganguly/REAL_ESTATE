@@ -1,10 +1,13 @@
 const Property = require('../models/propertyModel');
 
+// Add a new property
 const addProperty = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
       return res.status(401).json({ error: 'Unauthorized: User not authenticated' });
     }
+
+    // You may want to validate req.body here for required fields
 
     const newProperty = new Property({
       ...req.body,
@@ -18,6 +21,7 @@ const addProperty = async (req, res) => {
   }
 };
 
+// Delete a property
 const deleteProperty = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
@@ -41,9 +45,10 @@ const deleteProperty = async (req, res) => {
   }
 };
 
+// Get a property by ID
 const getPropertyById = async (req, res) => {
   try {
-    const property = await Property.findById(req.params.id);
+    const property = await Property.findById(req.params.id).populate('owner', 'fullName email');
     if (!property) {
       return res.status(404).json({ error: 'Property not found' });
     }
@@ -53,6 +58,7 @@ const getPropertyById = async (req, res) => {
   }
 };
 
+// Get all properties with optional filters
 const getAllProperties = async (req, res) => {
   try {
     const { location, minPrice, maxPrice, keyword } = req.query;

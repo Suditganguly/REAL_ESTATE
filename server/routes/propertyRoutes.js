@@ -16,9 +16,9 @@ router.post('/add/property', verifyUserToken, addProperty);
 router.get('/view/property', getAllProperties);
 
 // Get property by ID (Public)
-router.get('/property/:id', getPropertyById);
+router.get('/view/property/:id', getPropertyById);
 
 // Delete property (Protected)
-router.delete('/propertydelete/:id', verifyUserToken, deleteProperty);
+router.delete('/user/remove/property/:id', verifyUserToken, deleteProperty);
 
 module.exports = router;
