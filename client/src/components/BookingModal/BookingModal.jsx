@@ -3,7 +3,6 @@ import { Modal, Button, Group } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useMutation } from "react-query";
 import { UserDetailContext } from "../../context/UserDetailContext.jsx";
-import { bookVisit } from "../../utils/api.js";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
