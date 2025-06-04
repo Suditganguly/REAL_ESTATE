@@ -2,11 +2,12 @@
   z-index: 99;
   position: sticky;
   top: 0;
+  background: var(--black);
 }
 .h-container { /*header*/
   padding-top: 1rem;
   padding-bottom: 1rem;
-  color: var(--secondary);
+  color: white;
   justify-content: space-between;/*space between the logo nd the headers*/
 }
 
@@ -18,28 +19,179 @@
 }
 .menu-icon {
   display: none;
+  color: white;
 }
 
+/* Menu Items */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.menu-item:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.menu-item svg {
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover svg {
+  transform: scale(1.1);
+}
+
+/* Active NavLink */
+.menu-item.active {
+  color: white;
+  font-weight: 600;
+}
+
+/* Login Button */
+.login-button {
+  background: transparent;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Notification Styles */
+.notification-icon,
+.bookings-icon {
+  color: white;
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.notification-icon:hover,
+.bookings-icon:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.notification-badge,
+.bookings-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: white;
+  color: var(--black);
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-weight: bold;
+}
+
+/* Dropdown Styles */
+.notification-dropdown,
+.bookings-dropdown,
+.profile-dropdown {
+  background: var(--black);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notification-header h3,
+.bookings-header h3 {
+  color: white;
+}
+
+.notification-item,
+.booking-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.notification-item:hover,
+.booking-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.notification-item-icon,
+.booking-date {
+  color: white;
+}
+
+.booking-details h3 {
+  color: white;
+}
+
+.booking-address {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.no-notifications,
+.no-bookings {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.notification-footer button,
+.dropdown-item {
+  color: white;
+}
+
+.notification-footer button:hover,
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
   .menu-icon {
     display: block;
   }
+  
   .h-menu {
-    color: var(--black);
-    position: absolute;
-    gap: 2rem;
-    font-weight: 500;
-    flex-direction: column;
-    right: 4rem;
-    top: 3rem;
-    background: #ffffff;
-    display: flex;
-    border-radius: 10px;
-    transition: all 200ms ease;
-    align-items: flex-start;
-    padding: 3rem;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    background: var(--black);
+    color: white;
   }
+
+  .h-menu .menu-item {
+    color: white;
+  }
+
+  .h-menu .notification-icon,
+  .h-menu .bookings-icon {
+    color: white;
+  }
+
+  .h-menu .notification-icon:hover,
+  .h-menu .bookings-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .notification-dropdown,
+  .bookings-dropdown {
+    background: var(--black);
+  }
+}
+
+/* Scrollbar Styles */
+.notification-content::-webkit-scrollbar-thumb,
+.bookings-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.notification-content::-webkit-scrollbar-track,
+.bookings-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .profile-container {
@@ -54,7 +206,7 @@
 .profile-avatar {
   width: 40px;
   height: 40px;
-  background-color: #4a90e2; /* blue circle */
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -68,7 +220,7 @@
 }
 
 .profile-avatar:hover {
-  background-color: #d1324a; /* Slightly darker on hover */
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .profile-dropdown {
@@ -95,3 +247,347 @@
 .dropdown-item:hover {
   background-color: #f0f0f0;
 }
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;      /* Makes the image circular */
+  object-fit: cover;       /* Ensures the image covers the area */
+  border: 2px solid #eee;  /* Optional: subtle border */
+  background: #fff;        /* Optional: fallback background */
+  display: block;
+}
+
+/* Notification Styles */
+.notification-container {
+  position: relative;
+}
+
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  color: var(--blue);
+}
+
+.notification-icon:hover {
+  background-color: rgba(64, 102, 255, 0.1);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ff4444;
+  color: white;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-weight: bold;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -10px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 320px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.notification-header {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.notification-content {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.notification-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.notification-section {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-section h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item-icon {
+  color: var(--blue);
+  font-size: 1.2rem;
+}
+
+.notification-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.no-notifications {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.notification-footer {
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.notification-footer button {
+  background: none;
+  border: none;
+  color: var(--blue);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.notification-footer button:hover {
+  background-color: rgba(64, 102, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .notification-dropdown {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    max-height: 80vh;
+  }
+
+  .notification-content {
+    max-height: calc(60vh - 120px);
+  }
+}
+
+/* Bookings Styles */
+.bookings-container {
+  position: relative;
+}
+
+.bookings-icon {
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  color: var(--blue);
+}
+
+.bookings-icon:hover {
+  background-color: rgba(64, 102, 255, 0.1);
+}
+
+.bookings-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-weight: bold;
+}
+
+.bookings-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -10px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 320px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.bookings-header {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.bookings-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.bookings-content {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.bookings-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bookings-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.bookings-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.booking-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.booking-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.booking-property-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.booking-property-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booking-details {
+  flex: 1;
+  min-width: 0; /* Prevents text overflow */
+}
+
+.booking-details h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-address {
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--blue);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.no-bookings {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
+.no-bookings p {
+  margin-bottom: 1rem;
+}
+
+/* Responsive adjustments for bookings */
+@media (max-width: 768px) {
+  .bookings-dropdown {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    max-height: 80vh;
+  }
+
+  .bookings-content {
+    max-height: calc(60vh - 120px);
+  }
+
+  .booking-item {
+    padding: 0.75rem;
+  }
+
+  .booking-property-image {
+    width: 60px;
+    height: 60px;
+  }
+}
+
