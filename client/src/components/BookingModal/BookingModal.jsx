@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Modal, Button, Group } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useMutation } from "react-query";
-import { UserDetailContext } from "../../context/UserDetailContext.jsx";
+import { useUser } from "../../context/UserDetailContext.jsx";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +12,8 @@ const BookingModal = ({ opened, setOpened, propertyId, email }) => {
   const [value, setValue] = useState(null);
   const navigate = useNavigate();
   const [showSuccess, setShowSuccess] = useState(false);
-  const {
-    userDetails: { token },
-    setUserDetails,
-  } = useContext(UserDetailContext);
+  const { userDetails, setUserDetails } = useUser();
+  const token = userDetails?.token;
 
   const handleBookingSuccess = () => {
     setShowSuccess(true);

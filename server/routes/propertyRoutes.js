@@ -4,7 +4,8 @@ const {
   addProperty,
   getAllProperties,
   getPropertyById,
-  deleteProperty
+  deleteProperty,
+  createResidency,
 } = require('../controller/propertyController');
 
 const verifyUserToken = require('../middlewares/UserAuthMiddleware');
@@ -20,5 +21,8 @@ router.get('/view/property/:id', getPropertyById);
 
 // Delete property (Protected)
 router.delete('/user/remove/property/:id', verifyUserToken, deleteProperty);
+
+// create residential property
+router.post('/add/residential', verifyUserToken, createResidency);
 
 module.exports = router;

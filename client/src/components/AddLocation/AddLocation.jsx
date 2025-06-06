@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "@mantine/form";
 import { validateString } from "../../utils/common";
 import { Button, Group, Select, TextInput } from "@mantine/core";
@@ -21,23 +21,34 @@ const AddLocation = ({ propertyDetails, setPropertyDetails, nextStep }) => {
     },
   });
 
-
   const { country, city, address } = form.values;
 
+  const coordsRef = useRef(propertyDetails?.location?.coordinates || [0, 0]);
 
-  const handleSubmit = ()=> {
-    const {hasErrors} = form.validate();
-    if(!hasErrors) {
-        setPropertyDetails((prev)=> ({...prev, city, address, country}))
-        nextStep()
+  const handleLocationChange = (lng, lat) => {
+    coordsRef.current = [lng, lat];
+    setPropertyDetails((prev) => ({
+      ...prev,
+      location: {
+        type: "Point",
+        coordinates: [lng, lat],
+      },
+    }));
+  };
+
+  const handleSubmit = () => {
+    const { hasErrors } = form.validate();
+    if (!hasErrors) {
+      setPropertyDetails((prev) => ({ ...prev, city, address, country }));
+      nextStep();
     }
-  }
+  };
   return (
     <form
-    onSubmit={(e)=>{
+      onSubmit={(e) => {
         e.preventDefault();
-        handleSubmit()
-    }}
+        handleSubmit();
+      }}
     >
       <div
         className="flexCenter"
@@ -80,7 +91,12 @@ const AddLocation = ({ propertyDetails, setPropertyDetails, nextStep }) => {
         {/* right side */}
 
         <div style={{ flex: 1 }}>
-          <Map address={address} city={city} country={country} />
+          <Map
+            address={address}
+            city={city}
+            country={country}
+            onLocationChange={handleLocationChange}
+          />
         </div>
       </div>
 

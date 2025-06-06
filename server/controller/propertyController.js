@@ -7,8 +7,6 @@ const addProperty = async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized: User not authenticated' });
     }
 
-    // You may want to validate req.body here for required fields
-
     const newProperty = new Property({
       ...req.body,
       owner: req.user._id
@@ -88,9 +86,35 @@ const getAllProperties = async (req, res) => {
   }
 };
 
+// create residency
+const createResidency = async (req, res) => {
+  try {
+    const { title, description, price, country, city, address, image, facilities } = req.body;
+    const userEmail = req.user.email;
+
+    const newProperty = new Property({
+      title,
+      description,
+      price,
+      country,
+      city,
+      address,
+      image,
+      facilities,
+      userEmail
+    });
+
+    await newProperty.save();
+    res.status(201).json({ status: 1, message: 'Property added successfully', property: newProperty });
+  } catch (error) {
+    res.status(500).json({ status: 0, message: 'Error while adding property', error: error.message });
+  }
+};
+
 module.exports = {
   addProperty,
   getPropertyById,
   getAllProperties,
-  deleteProperty
+  deleteProperty,
+  createResidency,
 };

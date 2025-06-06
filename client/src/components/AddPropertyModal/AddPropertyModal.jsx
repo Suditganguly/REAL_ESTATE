@@ -5,10 +5,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import UploadImage from "../UploadImage/UploadImage";
 import BasicDetails from "../BasicDetails/BasicDetails";
 import Facilities from "../Facilities/Facilities";
+import { useUser } from "../../context/UserDetailContext";
+import { toast } from "react-toastify";
 
 const AddPropertyModal = ({ opened, setOpened }) => {
   const [active, setActive] = useState(0);
   const { user } = useAuth0();
+  const { userDetails } = useUser();
 
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
@@ -19,14 +22,18 @@ const AddPropertyModal = ({ opened, setOpened }) => {
     address: "",
     image: null,
     facilities: {
-      bedrooms: 0,
-      parkings: 0,
-      bathrooms: 0,
+      bedrooms: 1,
+      parkings: 1,
+      bathrooms: 1,
     },
     userEmail: user?.email,
   });
 
   const nextStep = () => {
+    if (!userDetails?.token) {
+      toast.error("Please login to continue");
+      return;
+    }
     setActive((current) => (current < 4 ? current + 1 : current));
   };
 
@@ -55,7 +62,7 @@ const AddPropertyModal = ({ opened, setOpened }) => {
               setPropertyDetails={setPropertyDetails}
             />
           </Stepper.Step>
-          <Stepper.Step label="Images" description="Upload ">
+          <Stepper.Step label="Images" description="Upload">
             <UploadImage
               prevStep={prevStep}
               nextStep={nextStep}
@@ -71,8 +78,7 @@ const AddPropertyModal = ({ opened, setOpened }) => {
               setPropertyDetails={setPropertyDetails}
             />
           </Stepper.Step>
-
-          <Stepper.Step>
+          <Stepper.Step label="Facilities" description="Features">
             <Facilities
               prevStep={prevStep}
               propertyDetails={propertyDetails}

@@ -13,7 +13,7 @@ let DefaulIcon = L.icon ({
 L.Marker.prototype.options.icon = DefaulIcon
 
 
-const GeoCoderMarker = ({address}) => {
+const GeoCoderMarker = ({address, onLocationChange}) => {
 
     const map = useMap()
     const [position, setPosition] = useState([60, 19])
@@ -24,6 +24,9 @@ const GeoCoderMarker = ({address}) => {
                 const {lat, lng} = results?.results[0].latlng
                 setPosition([lat, lng])
                 map.flyTo([lat, lng], 6)
+                if (onLocationChange) {
+                  onLocationChange(lng, lat); // longitude, latitude
+                }
             }
         })
     }, [address])
