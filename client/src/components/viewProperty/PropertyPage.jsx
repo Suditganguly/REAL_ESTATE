@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropertyCard from './PropertyCard';
 import PropertyModal from './PropertyModal';
 import CalendarModal from './CalendarModal';
 import BookingSuccessModal from './BookingSuccessModal';
 import './PropertyPage.css';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 // Mock property data
 const mockProperties = [
   {
     id: 1,
     name: 'Sunset Villa',
+    title: 'Sunset Villa',
     place: 'Goa',
     price: '₹2,50,00,000',
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
@@ -25,6 +27,7 @@ const mockProperties = [
   {
     id: 2,
     name: 'Urban Heights',
+    title: 'Urban Heights',
     place: 'Mumbai',
     price: '₹3,10,00,000',
     image: 'https://images.unsplash.com/photo-1460518451285-97b6aa326961?auto=format&fit=crop&w=400&q=80',
@@ -35,11 +38,12 @@ const mockProperties = [
     washroomType: 'Common',
     bedType: 'Queen',
     description: 'High-rise apartment with city view, gym, and clubhouse access.',
-    ground: 'Community park, children’s play area',
+    ground: 'Community park, children\'s play area',
   },
   {
     id: 3,
     name: 'Green Acres',
+    title: 'Green Acres',
     place: 'Bangalore',
     price: '₹1,80,00,000',
     image: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=400&q=80',
@@ -55,6 +59,7 @@ const mockProperties = [
   {
     id: 4,
     name: 'Palm Residency',
+    title: 'Palm Residency',
     place: 'Pune',
     price: '₹2,10,00,000',
     image: 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=400&q=80',
@@ -70,6 +75,7 @@ const mockProperties = [
   {
     id: 5,
     name: 'Lakeview Mansion',
+    title: 'Lakeview Mansion',
     place: 'Udaipur',
     price: '₹4,00,00,000',
     image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
@@ -85,6 +91,7 @@ const mockProperties = [
   {
     id: 6,
     name: 'Royal Enclave',
+    title: 'Royal Enclave',
     place: 'Delhi',
     price: '₹3,50,00,000',
     image: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=400&q=80',
@@ -100,6 +107,7 @@ const mockProperties = [
   {
     id: 7,
     name: 'Hilltop Cottage',
+    title: 'Hilltop Cottage',
     place: 'Shimla',
     price: '₹1,20,00,000',
     image: 'https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=400&q=80',
@@ -115,6 +123,7 @@ const mockProperties = [
   {
     id: 8,
     name: 'Seaside Retreat',
+    title: 'Seaside Retreat',
     place: 'Chennai',
     price: '₹2,80,00,000',
     image: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=400&q=80',
@@ -135,6 +144,21 @@ const PropertyPage = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [appointment, setAppointment] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // Check if there's a propertyId in URL and auto-open the modal
+  useEffect(() => {
+    const propertyId = searchParams.get('propertyId');
+    if (propertyId) {
+      const property = mockProperties.find(p => p.id === parseInt(propertyId));
+      if (property) {
+        setSelectedProperty(property);
+        // Remove the propertyId from URL after opening modal
+        setSearchParams({});
+      }
+    }
+  }, [searchParams, setSearchParams]);
 
   const filteredProperties = mockProperties.filter((property) => {
     const searchText = search.toLowerCase();
@@ -167,6 +191,7 @@ const PropertyPage = () => {
 
   return (
     <div className="property-page">
+      <button className="back-home-btn" onClick={() => navigate('/')}>Back to Home</button>
       <h1>Property Listings</h1>
       <div className="search-bar-wrapper">
         <input
@@ -212,3 +237,6 @@ const PropertyPage = () => {
 };
 
 export default PropertyPage;
+
+// Export the mockProperties for use in other components
+export { mockProperties };
