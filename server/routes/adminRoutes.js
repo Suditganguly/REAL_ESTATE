@@ -6,10 +6,10 @@ const router = express.Router();
 const verifyAdminToken = require('../middlewares/AdminAuthMiddleware');
 
 // Public routes
-router.post('/register', adminRegister);
-router.post('/login', adminLogin);
+router.post('/admin/register', adminRegister);
+router.post('/admin/login', adminLogin);
 
 // Protected route
-router.get('/dashboard', verifyAdminToken, adminDashboard);
+router.get('/admin/dashboard', verifyAdminToken, adminDashboard);
 
 module.exports = router;
