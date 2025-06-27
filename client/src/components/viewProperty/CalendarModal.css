@@ -1,0 +1,105 @@
+.calendar-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24, 28, 36, 0.85);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+
+.calendar-content {
+  background: #232936;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+  padding: 32px 32px 24px 32px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  color: #f4f7fa;
+}
+
+.calendar-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: none;
+  border: none;
+  color: #8fa2c7;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.calendar-close:hover {
+  color: #4f8cff;
+}
+
+.calendar-title {
+  margin: 0 0 18px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.calendar-label {
+  display: block;
+  margin: 16px 0 6px 0;
+  color: #8fa2c7;
+  font-size: 1.05rem;
+  text-align: left;
+}
+
+.calendar-date {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #2d3442;
+  background: #181c24;
+  color: #f4f7fa;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.calendar-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.calendar-slot {
+  background: #181c24;
+  color: #8fa2c7;
+  border: 1.5px solid #2d3442;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.calendar-slot.selected, .calendar-slot:hover {
+  background: #4f8cff;
+  color: #fff;
+  border: 1.5px solid #4f8cff;
+}
+
+.calendar-confirm {
+  background: linear-gradient(90deg, #4f8cff 60%, #6a82fb 100%);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 32px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(79,140,255,0.18);
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: 10px;
+}
+.calendar-confirm:disabled {
+  background: #2d3442;
+  color: #8fa2c7;
+  cursor: not-allowed;
+}

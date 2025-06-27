@@ -34,14 +34,18 @@ const Facilities = ({
       ...prev,
       facilities: { bedrooms, parkings, bathrooms },
     }));
+    const token = userDetails?.token;
+    console.log("Token used for property add:", token); // Debugging line
+    if (!token) {
+      toast.error("You must be logged in to add a property.");
+      return;
+    }
     try {
-      const token = userDetails?.token;
       await axios.post(
         `${import.meta.env.VITE_USER_URL}/add/property`,
         {
           ...propertyDetails,
           facilities: { bedrooms, parkings, bathrooms },
-          // Use location from propertyDetails, not local state
         },
         {
           headers: {
@@ -70,7 +74,7 @@ const Facilities = ({
       });
       setOpened(false);
       setActiveStep((prev) => prev + 1); // Move to next step
-      navigate("/properties");
+      navigate("/view-property");
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Error while adding property"

@@ -17,6 +17,7 @@ import UserSettings from "../components/UserSettings";
 import PropertyDuplicate from "../pages/Duplicate/PropertyDuplicate";
 import AdminLogin from "../pages/Admin/pages/Login/Login";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
+import PropertyPage from "../components/viewProperty/PropertyPage";
 
 function App() {
   const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ function App() {
               <Route path="/Property-Duplicate" element={<PropertyDuplicate />} />
               <Route path="/admin-portal/login" element={<AdminLogin />} />
               <Route path="/admin-portal/dashboard" element={<AdminDashboard />} />
+              <Route path="/view-property" element={<PropertyPage />} />
             </Routes>
           </Suspense>
         </BrowserRouter>
