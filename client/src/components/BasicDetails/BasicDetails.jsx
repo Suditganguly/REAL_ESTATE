@@ -1,9 +1,21 @@
 import React from "react";
-import { TextInput, Box, Textarea, Group, Button, NumberInput } from "@mantine/core";
+import {
+  TextInput,
+  Box,
+  Textarea,
+  Group,
+  Button,
+  NumberInput,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { validateString } from "../../utils/common";
 
-const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails }) => {
+const BasicDetails = ({
+  prevStep,
+  nextStep,
+  propertyDetails,
+  setPropertyDetails,
+}) => {
   const form = useForm({
     initialValues: {
       title: propertyDetails.title,
@@ -14,26 +26,27 @@ const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails 
       title: (value) => validateString(value),
       description: (value) => validateString(value),
       price: (value) =>
-          value < 1000 ? "Must be greater than 999 dollars" : null,
+        value < 1000 ? "Must be greater than 999 dollars" : null,
     },
   });
 
-  const {title, description, price} = form.values
+  const { title, description, price } = form.values;
 
-
-  const handleSubmit = ()=> {
-    const {hasErrors} = form.validate()
-    if(!hasErrors) {
-     setPropertyDetails((prev)=> ({...prev, title, description, price}))
-     nextStep()
+  const handleSubmit = () => {
+    const { hasErrors } = form.validate();
+    if (!hasErrors) {
+      setPropertyDetails((prev) => ({ ...prev, title, description, price }));
+      nextStep();
     }
-   }
+  };
   return (
     <Box maw="50%" mx="auto" my="md">
-      <form  onSubmit={(e) => {
+      <form
+        onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
-        }}>
+        }}
+      >
         <TextInput
           withAsterisk
           label="Title"
@@ -53,13 +66,17 @@ const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails 
           min={0}
           {...form.getInputProps("price")}
         />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        ></form>
         <Group position="center" mt="xl">
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
-          <Button type="submit">
-            Next step
-          </Button>
+          <Button type="submit">Next step</Button>
         </Group>
       </form>
     </Box>

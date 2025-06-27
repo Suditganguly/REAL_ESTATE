@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
-import { getProperty, removeBooking } from "../../utils/api";
 import { PuffLoader } from "react-spinners";
 import { AiFillHeart } from "react-icons/ai";
 import "./Property.css";
@@ -13,7 +12,7 @@ import Map from "../../components/Map/Map";
 import useAuthCheck from "../../hooks/useAuthCheck";
 import { useAuth0 } from "@auth0/auth0-react";
 import BookingModal from "../../components/BookingModal/BookingModal";
-import { UserDetailContext } from "../../context/UserDetailContext";
+import { UserDetailContext, useUser } from "../../context/UserDetailContext.jsx";
 import { Button } from "@mantine/core";
 import { toast } from "react-toastify";
 import Heart from "../../components/Heart/Heart";
@@ -28,12 +27,13 @@ const Property = () => {
 
   const [modalOpened, setModalOpened] = useState(false);
   const { validateLogin } = useAuthCheck();
-  const { user } = useAuth0();
+  // const { user } = useAuth0(); // Remove this if not using Auth0
 
-  const {
-    userDetails: { token, bookings },
-    setUserDetails,
-  } = useContext(UserDetailContext);
+  // Use the same user context as BookingModal
+  const { userDetails, setUserDetails } = useUser();
+  const token = userDetails?.token;
+  const bookings = userDetails?.bookings;
+  const user = userDetails?.user;
 
   const { mutate: cancelBooking, isLoading: cancelling } = useMutation({
     mutationFn: () => removeBooking(id, user?.email, token),

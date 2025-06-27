@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getAllFav } from "../utils/api";
 import { useUser } from "../context/UserDetailContext.jsx";   // ← use the hook
 
 const useFavourites = () => {

@@ -1,5 +1,6 @@
 const Property = require('../models/propertyModel');
 
+// Add a new property
 const addProperty = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
@@ -18,6 +19,7 @@ const addProperty = async (req, res) => {
   }
 };
 
+// Delete a property
 const deleteProperty = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
@@ -41,9 +43,10 @@ const deleteProperty = async (req, res) => {
   }
 };
 
+// Get a property by ID
 const getPropertyById = async (req, res) => {
   try {
-    const property = await Property.findById(req.params.id);
+    const property = await Property.findById(req.params.id).populate('owner', 'fullName email');
     if (!property) {
       return res.status(404).json({ error: 'Property not found' });
     }
@@ -53,6 +56,7 @@ const getPropertyById = async (req, res) => {
   }
 };
 
+// Get all properties with optional filters
 const getAllProperties = async (req, res) => {
   try {
     const { location, minPrice, maxPrice, keyword } = req.query;
@@ -82,9 +86,35 @@ const getAllProperties = async (req, res) => {
   }
 };
 
+// create residency
+const createResidency = async (req, res) => {
+  try {
+    const { title, description, price, country, city, address, image, facilities } = req.body;
+    const userEmail = req.user.email;
+
+    const newProperty = new Property({
+      title,
+      description,
+      price,
+      country,
+      city,
+      address,
+      image,
+      facilities,
+      userEmail
+    });
+
+    await newProperty.save();
+    res.status(201).json({ status: 1, message: 'Property added successfully', property: newProperty });
+  } catch (error) {
+    res.status(500).json({ status: 0, message: 'Error while adding property', error: error.message });
+  }
+};
+
 module.exports = {
   addProperty,
   getPropertyById,
   getAllProperties,
-  deleteProperty
+  deleteProperty,
+  createResidency,
 };

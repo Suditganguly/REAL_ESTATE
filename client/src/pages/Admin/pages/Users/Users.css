@@ -1,0 +1,43 @@
+.users-container {
+  padding: 1.5rem;
+}
+
+.users-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.users-table {
+  width: 100%;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+.users-thead-row {
+  background-color: #f7f7f7;
+  text-align: left;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.users-th {
+  padding: 0.75rem 1.5rem;
+}
+
+.users-tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s;
+}
+
+.users-tr:hover {
+  background-color: #f9fafb;
+}
+
+.users-td {
+  padding: 0.75rem 1.5rem;
+}

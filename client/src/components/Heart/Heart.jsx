@@ -5,7 +5,6 @@ import { useMutation } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "../../context/UserDetailContext";
 import { checkFavourites, updateFavourites } from "../../utils/common";
-import { toFav } from "../../utils/api";
 
 const Heart = ({ id }) => {
   const [heartColor, setHeartColor] = useState("white");

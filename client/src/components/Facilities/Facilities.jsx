@@ -1,12 +1,12 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Group, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useContext } from "react";
-import { UserProvider, useUser } from "../../context/UserDetailContext.jsx";
-import useProperties from "../../hooks/useProperties.jsx";
-import { useMutation } from "react-query";
+import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
-import { createResidency } from "../../utils/api";
+import { useUser } from "../../context/UserDetailContext";
+import axios from "axios";
+
 const Facilities = ({
   prevStep,
   propertyDetails,
@@ -14,46 +14,42 @@ const Facilities = ({
   setOpened,
   setActiveStep,
 }) => {
+  const navigate = useNavigate();
   const form = useForm({
     initialValues: {
-      bedrooms: propertyDetails.facilities.bedrooms,
-      parkings: propertyDetails.facilities.parkings,
-      bathrooms: propertyDetails.facilities.bathrooms,
-    },
-    validate: {
-      bedrooms: (value) => (value < 1 ? "Must have atleast one room" : null),
-      bathrooms: (value) =>
-        value < 1 ? "Must have atleast one bathroom" : null,
+      bedrooms: propertyDetails.facilities?.bedrooms || 1,
+      parkings: propertyDetails.facilities?.parkings || 1,
+      bathrooms: propertyDetails.facilities?.bathrooms || 1,
     },
   });
 
   const { bedrooms, parkings, bathrooms } = form.values;
-
-  const handleSubmit = () => {
-    const { hasErrors } = form.validate();
-    if (!hasErrors) {
-      setPropertyDetails((prev) => ({
-        ...prev,
-        facilities: { bedrooms, parkings, bathrooms },
-      }));
-      mutate();
-    }
-  };
-
-  // ==================== upload logic
   const { user } = useAuth0();
-  const {
-    userDetails: { token },
-  } = useContext(UserDetailContext);
-  const { refetch: refetchProperties } = useProperties();
+  const { userDetails } = useUser();
 
-  const {mutate, isLoading} = useMutation({
-    mutationFn: ()=> createResidency({
-        ...propertyDetails, facilities: {bedrooms, parkings , bathrooms},
-    }, token),
-    onError: ({ response }) => toast.error(response.data.message, {position: "bottom-right"}),
-    onSettled: ()=> {
-      toast.success("Added Successfully", {position: "bottom-right"});
+  // Function to add property
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setPropertyDetails((prev) => ({
+      ...prev,
+      facilities: { bedrooms, parkings, bathrooms },
+    }));
+    try {
+      const token = userDetails?.token;
+      await axios.post(
+        `${import.meta.env.VITE_USER_URL}/add/property`,
+        {
+          ...propertyDetails,
+          facilities: { bedrooms, parkings, bathrooms },
+          // Use location from propertyDetails, not local state
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("Property added successfully");
       setPropertyDetails({
         title: "",
         description: "",
@@ -67,25 +63,25 @@ const Facilities = ({
           parkings: 0,
           bathrooms: 0,
         },
-        userEmail: user?.email,
-      })
-      setOpened(false)
-      setActiveStep(0)
-      refetchProperties()
+        location: {
+          type: "Point",
+          coordinates: [0, 0],
+        },
+      });
+      setOpened(false);
+      setActiveStep((prev) => prev + 1); // Move to next step
+      navigate("/properties");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Error while adding property"
+      );
     }
-
-  })
+  };
 
   return (
     <Box maw="30%" mx="auto" my="sm">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <NumberInput
-          withAsterisk
           label="No of Bedrooms"
           min={0}
           {...form.getInputProps("bedrooms")}
@@ -96,7 +92,6 @@ const Facilities = ({
           {...form.getInputProps("parkings")}
         />
         <NumberInput
-          withAsterisk
           label="No of Bathrooms"
           min={0}
           {...form.getInputProps("bathrooms")}
@@ -105,8 +100,8 @@ const Facilities = ({
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
-          <Button type="submit" color="green" disabled={isLoading}>
-            {isLoading ? "Submitting" : "Add Property"}
+          <Button type="submit" color="green">
+            Add Property
           </Button>
         </Group>
       </form>
