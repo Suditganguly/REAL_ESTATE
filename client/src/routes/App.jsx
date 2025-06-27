@@ -15,6 +15,8 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import UserSettings from "../components/UserSettings";
 import PropertyDuplicate from "../pages/Duplicate/PropertyDuplicate";
+import AdminLogin from "../pages/Admin/pages/Login/Login";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
 
 function App() {
   const queryClient = new QueryClient();
@@ -34,6 +36,8 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/settings" element={<UserSettings />} />
               <Route path="/Property-Duplicate" element={<PropertyDuplicate />} />
+              <Route path="/admin-portal/login" element={<AdminLogin />} />
+              <Route path="/admin-portal/dashboard" element={<AdminDashboard />} />
             </Routes>
           </Suspense>
         </BrowserRouter>
