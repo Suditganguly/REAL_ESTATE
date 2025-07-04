@@ -161,7 +161,7 @@ const Header = () => {
         <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>
           <div className="flexCenter h-menu" style={getMenuStyles(menuOpened)}>
             {/* View Properties Link */}
-            <NavLink to="/properties" className="menu-item">
+            <NavLink to="/view-property" className="menu-item">
               <BiHomeAlt size={20} />
               <span>View Properties</span>
             </NavLink>
@@ -223,7 +223,7 @@ const Header = () => {
                               className="button"
                               onClick={() => {
                                 setBookingsOpen(false);
-                                navigate("/properties");
+                                navigate("/view-property");
                               }}
                             >
                               Browse Properties
